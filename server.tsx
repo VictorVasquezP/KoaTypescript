@@ -45,6 +45,19 @@ router.get("/por_get/:id",async (ctx,next)=>{
   ctx.body = aux;
   //await next();
 });
+router.get("/obtener",async (ctx,next)=>{
+  ctx.status = HttpStatus.OK;
+  const {rows} = await client.query("select * from comentarios");
+  ctx.body = {
+    /*exceptions: "",
+    status: 200,
+    error: false,
+    */
+    message: "User registered Successfully",
+    data: rows
+  };
+  //await next();
+});
 router.post("/por_post",async (ctx,next)=>{
   //const books = ["Speaking javascript", "Fluent Python", "Pro Python", "The Go programming language"];
   var aux2 = ctx.request.body.id;
@@ -62,10 +75,11 @@ router.post("/prueba",async (ctx,next)=>{
   //await next();
 });
 
-router.post("/insertar",async (ctx,next)=>{
+router.get("/insertar",async (ctx,next)=>{
   ctx.status = HttpStatus.OK;
-  ctx.body = client.query("INSERT INTO COMENTARIOS(nombre,hotel,comentario,correo)values('Erick','Integra','Suave','victoe680@gmail.com')");
-    //await next();
+  client.query("INSERT INTO COMENTARIOS(nombre,hotel,comentario,correo)values('Pepe','Integra','Suave','victoe680@gmail.com')");
+  ctx.redirect('http://localhost:3001/obtener');
+  //await next();
 });
 
 app.use(router.routes()).use(router.allowedMethods());
